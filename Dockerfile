@@ -17,8 +17,8 @@ RUN chmod 444 /models/2D_versatile_HE/weights_best.h5
 
 # -----------------------------------------------------------------------------
 # Install Cytomine python client
-RUN git clone https://github.com/cytomine-uliege/Cytomine-python-client.git && \
-    cd /Cytomine-python-client && git checkout tags/v2.5.1 && pip install . && \
+RUN git clone https://github.com/cytomine/Cytomine-python-client.git && \
+    cd /Cytomine-python-client && git checkout tags/v2.2.0 && pip install . && \
     rm -r /Cytomine-python-client
 # -----------------------------------------------------------------------------
 
