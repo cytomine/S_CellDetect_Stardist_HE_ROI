@@ -1,13 +1,13 @@
 FROM python:3.8-slim-bullseye
 
 # install git
-RUN apt-get update -y && apt-get install git -y
+RUN apt-get update -y && apt-get install git libgeos-dev libglib2.0-0 -y
 
 # Create the directories
 RUN mkdir -p app/ models/ models/2D_versatile_HE/
 
 # Install Cytomine python client
-RUN pip3 install git+https://github.com/cytomine/Cytomine-python-client.git@v2.3.2
+RUN pip3 install git+https://github.com/cytomine/Cytomine-python-client.git@v2.3.3
 
 # Install Stardist and tensorflow and its dependencies
 COPY requirements.txt /tmp/
