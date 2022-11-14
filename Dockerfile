@@ -1,7 +1,7 @@
 FROM python:3.8-slim-bullseye
 
 # install git
-RUN apt-get update -y && apt-get install git libgeos-dev libglib2.0-0 -y
+RUN apt-get update -y && apt-get install git -y
 
 # Create the directories
 RUN mkdir -p app/ models/ models/2D_versatile_HE/
