@@ -38,10 +38,12 @@ from sldc_cytomine.dump import dump_region
 __author__ = "Maree Raphael <raphael.maree@uliege.be>"
 
 
+MAX_REGION_AREA = int(1e8) # equivalent to a square region of 10k x 10k pixels
+
+
 def main(argv):
     with CytomineJob.from_cli(argv) as conn:
-        app_logger = logging.getLogger("cytomine.app.stardist")
-        app_logger.setLevel(conn.logger.level)
+        app_logger = conn.logger
         conn.job.update(status=Job.RUNNING, progress=0, statusComment="Initialization...")
 
         # Loading pre-trained Stardist model
@@ -81,6 +83,11 @@ def main(argv):
                 # Cytomine cartesian coordinate system, (0,0) is bottom left corner
                 app_logger.debug("----------------------------ROI------------------------------")
                 roi_geometry = wkt.loads(roi.location)
+                if roi_geometry.area >= MAX_REGION_AREA:
+                    app_logger.error(f"ROI from annotation #{roi.id} is too large, skipping to avoid out of memory error.")
+                    app_logger.error("Crop area should not be larger 10k x 10k pixels.")
+                    continue
+
                 app_logger.debug(f"ROI Geometry from Shapely: {roi_geometry}")
                 app_logger.info(f"ROI {roi.id} bounds {roi_geometry.bounds}")
 
